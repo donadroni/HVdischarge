@@ -381,59 +381,59 @@ class HVBatteryDischargeApp:
             self.master.after(1000, self.update_data)
         except ValueError as e:
             print(f"Measurement error: {e}")
-def create_discharge_certificate(self):
-    discharge_duration = self.data_x[-1] if self.data_x else 0
-    starting_voltage = self.data_voltage[0] if self.data_voltage else 0
-    stop_voltage = self.data_voltage[-1] if self.data_voltage else 0
+    def create_discharge_certificate(self):
+        discharge_duration = self.data_x[-1] if self.data_x else 0
+        starting_voltage = self.data_voltage[0] if self.data_voltage else 0
+        stop_voltage = self.data_voltage[-1] if self.data_voltage else 0
 
-    certificate_filename = os.path.join("Skýrslur", f"{self.registration_number}_discharge_certificate.pdf")
-    with PdfPages(certificate_filename) as pdf:
-        fig = plt.figure(figsize=(11, 8.5))
-        grid = fig.add_gridspec(10, 2, height_ratios=[5, 1, 1, 1, 1, 2, 1, 1, 1, 3])
+        certificate_filename = os.path.join("Skýrslur", f"{self.registration_number}_discharge_certificate.pdf")
+        with PdfPages(certificate_filename) as pdf:
+            fig = plt.figure(figsize=(11, 8.5))
+            grid = fig.add_gridspec(10, 2, height_ratios=[5, 1, 1, 1, 1, 2, 1, 1, 1, 3])
 
         # Plot Voltage and Power on the graph
-        ax_voltage = fig.add_subplot(grid[:5, :])
-        ax_power = ax_voltage.twinx()
-        ax_voltage.plot(self.data_x, self.data_voltage, label="Voltage (V)", color="blue")
-        ax_power.plot(self.data_x, self.data_power, label="Power (W)", color="red")
-        ax_voltage.set_xlabel("Time (s)")
-        ax_voltage.set_ylabel("Voltage (V)", color="blue")
-        ax_power.set_ylabel("Power (W)", color="red")
-        ax_voltage.legend(loc="upper left")
-        ax_power.legend(loc="upper right")
-        ax_voltage.set_title("Discharge Chart")
+            ax_voltage = fig.add_subplot(grid[:5, :])
+            ax_power = ax_voltage.twinx()
+            ax_voltage.plot(self.data_x, self.data_voltage, label="Voltage (V)", color="blue")
+            ax_power.plot(self.data_x, self.data_power, label="Power (W)", color="red")
+            ax_voltage.set_xlabel("Time (s)")
+            ax_voltage.set_ylabel("Voltage (V)", color="blue")
+            ax_power.set_ylabel("Power (W)", color="red")
+            ax_voltage.legend(loc="upper left")
+            ax_power.legend(loc="upper right")
+            ax_voltage.set_title("Discharge Chart")
 
         # Add text summary below the graph
-        ax_summary = fig.add_subplot(grid[5:9, :])
-        ax_summary.axis("off")
-        profile_details = json.dumps(self.current_profile, indent=2)
-        summary_text = (
-            f"Discharge Certificate\n\n"
-            f"Registration Number: {self.registration_number}\n"
-            f"Profile Name: {self.current_profile}\n"
-            f"Profile Details: {profile_details}\n"
-            f"Starting Voltage: {starting_voltage:.2f} V\n"
-            f"Stop Voltage: {stop_voltage:.2f} V\n"
-            f"Discharge Duration: {discharge_duration:.2f} seconds\n"
-            f"Total Energy Discharged: {self.energy_discharged:.2f} kWh\n"
-            f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-        )
-        ax_summary.text(0.1, 0.5, summary_text, fontsize=12, va="center", ha="left", linespacing=1.5)
+            ax_summary = fig.add_subplot(grid[5:9, :])
+            ax_summary.axis("off")
+            profile_details = json.dumps(self.current_profile, indent=2)
+            summary_text = (
+                f"Discharge Certificate\n\n"
+                f"Registration Number: {self.registration_number}\n"
+                f"Profile Name: {self.current_profile}\n"
+                f"Profile Details: {profile_details}\n"
+                f"Starting Voltage: {starting_voltage:.2f} V\n"
+                f"Stop Voltage: {stop_voltage:.2f} V\n"
+                f"Discharge Duration: {discharge_duration:.2f} seconds\n"
+                f"Total Energy Discharged: {self.energy_discharged:.2f} kWh\n"
+                f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+            )
+            ax_summary.text(0.1, 0.5, summary_text, fontsize=12, va="center", ha="left", linespacing=1.5)
 
         # Add logos in a 2x2 grid on the bottom right corner
-        logo_positions = [(0.65, 0.05), (0.8, 0.05), (0.65, 0.2), (0.8, 0.2)]
-        logo_filenames = ["logo/askja.png", "logo/kia.png", "logo/honda.png", "logo/mb.png"]
-        for pos, logo_name in zip(logo_positions, logo_filenames):
-            logo_path = os.path.join("logo", logo_name)
-            if os.path.exists(logo_path):
-                img = Image.open(logo_path)
-                ax_logo = fig.add_axes([pos[0], pos[1], 0.1, 0.1])
-                ax_logo.imshow(img)
-                ax_logo.axis("off")
+            logo_positions = [(0.65, 0.05), (0.8, 0.05), (0.65, 0.2), (0.8, 0.2)]
+            logo_filenames = ["logo/askja.png", "logo/kia.png", "logo/honda.png", "logo/mb.png"]
+            for pos, logo_name in zip(logo_positions, logo_filenames):
+                logo_path = os.path.join("logo", logo_name)
+                if os.path.exists(logo_path):
+                    img = Image.open(logo_path)
+                    ax_logo = fig.add_axes([pos[0], pos[1], 0.1, 0.1])
+                    ax_logo.imshow(img)
+                    ax_logo.axis("off")
 
         # Save the figure to the PDF
-        pdf.savefig(fig)
-        plt.close(fig)
+            pdf.savefig(fig)
+            plt.close(fig)
 
     def scpi_query(self, command):
         if not self.connected:
