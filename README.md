@@ -15,7 +15,7 @@ Data logging of discharge metrics for later review.
 
 
 ## Screenshots
-![App Screenshot](/HVdischarge/Askja.png)
+![App Screenshot](/Askja.png)
 
 
 ## Installation
