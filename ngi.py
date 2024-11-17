@@ -122,6 +122,9 @@ class HVBatteryDischargeApp:
         self.energy_label = tk.Label(self.measurement_frame, text="Energy Discharged: 0.00 kWh", font=label_font)
         self.energy_label.pack(pady=12)
 
+        self.elapsed_time_label = tk.Label(self.measurement_frame, text="Elapsed Time: 00:00:00", font=label_font)
+        self.elapsed_time_label.pack(pady=12)
+
         # Reset Data Button to clear kWh counter and graph
         self.reset_button = tk.Button(self.measurement_frame, text="Reset Data", font=label_font, command=self.reset_data)
         self.reset_button.pack(pady=10)
@@ -160,6 +163,7 @@ class HVBatteryDischargeApp:
         self.ax_voltage.clear()
         self.ax_current_power.clear()
         self.canvas.draw()
+        self.elapsed_time_label.config(text="Elapsed Time: 00:00:00")
         messagebox.showinfo("Data Reset", "kWh counter and graph have been reset.")
 
     # Remaining methods such as load_profiles, add_profile, edit_profile, start_discharge, stop_discharge, etc.
@@ -376,6 +380,10 @@ class HVBatteryDischargeApp:
                 self.ax_current_power.set_ylabel("Current (A) / Power (W)", color="red")
                 
                 self.canvas.draw()
+                #Time calculations
+                elapsed_time_from_start = current_time - self.start_time
+                elapsed_time_formatted = str(timedelta(seconds=int(elapsed_time_from_start)))
+                self.elapsed_time_label.config(text=f"Elapsed Time: {elapsed_time_formatted}")
 
             # Schedule the next update
             self.master.after(1000, self.update_data)
