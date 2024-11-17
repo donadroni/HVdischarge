@@ -1,0 +1,4 @@
+  matplotlib==3.7.1
+  pillow==9.5.0
+  numpy==1.25.0
+  tkintertable==1.3.3  # Included for GUI dropdowns and tables
