@@ -15,8 +15,7 @@ Data logging of discharge metrics for later review.
 
 
 ## Screenshots
-
-![App Screenshot](HVdischarge/Askja program.png)
+![App Screenshot](/HVdischarge/Askja.png)
 
 
 ## Installation
@@ -49,7 +48,7 @@ Install the required Python packages using the requirements.txt file:
       python ngi.py
 
 
-Use the graphical interface to:
+Usage the graphical interface to:
 Select or add discharge profiles.
 Start, pause, or stop the discharge process.
 Monitor live data or reset the graph and energy counter.
